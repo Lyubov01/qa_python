@@ -18,11 +18,11 @@
 - `test_add_new_book_various_name` — параметризованный тест: проверка добавления книг с разной длиной названия, а также защита от дублей.
 
 ### 2. `set_book_genre`
-- `test_set_book_genre_valid_invalid_pairs` — установка жанра для существующей книги, попытка установки жанра для несуществующей книги и установка недопустимого жанра.
+- `test_set_book_genre_valid_invalid_pairs` — установка жанра для существующей книги, проверка корректной установки жанра.
 
 ### 3. `get_books_genre`
-- `test_get_books_genre_unknown_book` — проверка обращения к несуществующей книге.  
-- `test_get_books_genre_return_dict` — проверка, что метод возвращает словарь.  
+- `test_get_book_genre_existing_book` — проверка получения жарка книги по ее имени.
+- `test_get_books_genre_return_dict` — проверка, что метод возвращает коректный словарь с книгами.  
 - `test_get_books_genre_when_return_empty_dict` — если книг нет, возвращается пустой словарь.
 
 ### 4. `get_books_with_specific_genre`

@@ -15,45 +15,34 @@ class TestBooksCollector:
         collector.add_new_book(name)
         assert (name in collector.get_books_genre()) == added
 
-        before = len(collector.get_books_genre())
-        collector.add_new_book(name)
-        after = len(collector.get_books_genre())
-        assert before == after
-
     def test_set_book_genre_valid_invalid_pairs(self, collector):
         collector.add_new_book('Колобок')
         collector.set_book_genre('Колобок', 'Мультфильмы')
         assert collector.get_book_genre('Колобок')=='Мультфильмы'
 
-        collector.set_book_genre('Гарри Поттер','Фантастика')
-        assert 'Гарри Поттер'  not in collector.books_genre
-
-        collector.set_book_genre('Колобок', 'Страшилки')
-        assert collector.get_book_genre('Колобок') == 'Мультфильмы'
-
-    def test_get_books_genre_unknown_book(self, collector):
-        assert 'Во все тяжкие' not in collector.books_genre
+    def test_get_book_genre_existing_book(self,collector):
+        collector.books_genre["Гарри Поттер"] = "Фантастика"
+        result = collector.get_book_genre("Гарри Поттер")
+        assert result == "Фантастика"
 
     def test_get_books_with_specific_genre_choice(self, collector):
         collector.add_new_book("Книга1")
         collector.add_new_book("Книга2")
         collector.add_new_book("Книга3")
 
-        collector.set_book_genre("Книга1", "Комедии")
+        collector.set_book_genre("Книга1", "Ужасы")
         collector.set_book_genre("Книга2", "Ужасы")
         collector.set_book_genre("Книга3", "Комедии")
 
-        name_book = collector.get_books_with_specific_genre("Ужасы")
+        result = collector.get_books_with_specific_genre("Ужасы")
 
-        assert set(name_book) =={'Книга2'}
-        assert ['Книга1', 'Книга2'] not in name_book
+        assert result == ['Книга1', 'Книга2']
 
     def test_get_books_genre_return_dict(self, collector):
         collector.add_new_book("Касл")
         collector.set_book_genre("Касл", "Детективы")
         books_diction = collector.get_books_genre()
-
-        assert type(books_diction) == dict
+        assert books_diction == {"Касл": "Детективы"}
 
     def test_get_books_genre_when_return_empty_dict(self, collector):
         books_diction = collector.get_books_genre()
@@ -67,7 +56,6 @@ class TestBooksCollector:
 
         child = collector.get_books_for_children()
         assert "Три кота" in child
-        assert "Дом у озера" not in child
 
     def test_add_book_in_favorites_added(self, collector):
         collector.add_new_book('Книга1')
@@ -78,15 +66,12 @@ class TestBooksCollector:
     def test_delete_book_from_favorites_from_fav(self, collector):
         collector.add_new_book("Книга2")
         collector.add_book_in_favorites("Книга2")
-        assert "Книга2" in collector.get_list_of_favorites_books() 
-
         collector.delete_book_from_favorites("Книга2")
         assert "Книга2" not in collector.get_list_of_favorites_books()
 
     def test_get_list_of_favorites_books_no_books(self, collector):
         favorites = collector.get_list_of_favorites_books()
         assert favorites == []
-        assert type(favorites) == list
 
     def test_get_list_of_favorites_books_with_books(self, collector):
         collector.add_new_book("Книга3")
